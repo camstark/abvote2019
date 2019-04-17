@@ -573,10 +573,16 @@
 							}
 							if (how == 'leading') {
 								leadingParty = totals.getTotals('RidingNumber', parseInt(id))[0]['LeadingParty']
-								// console.log(leadingParty)
-								if (leadingParty != '') {
-									expression.push(parseInt(id), colours[colourChoice][leadingParty])
-									return colours[colourChoice][leadingParty]
+								console.log(leadingParty)
+								if (leadingParty != '' & leadingParty != 'Tie') {
+									if (colours[colourChoice][leadingParty] != undefined) {
+										expression.push(parseInt(id), colours[colourChoice][leadingParty])
+										return colours[colourChoice][leadingParty]
+									}
+									else {
+										expression.push(parseInt(id), '#ccc')
+										return "#ccc"
+									}
 								}
 								else {
 									expression.push(parseInt(id), '#ccc')
