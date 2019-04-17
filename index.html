@@ -505,7 +505,7 @@
 					});
 				};
 
-				colourTheHexes(electorates, "region")
+				colourTheHexes(electorates, "elected")
 
 				// Activate the Results Pane and Tooltip Toggler
 				$('#collapser').on('click', function(event) {
@@ -768,10 +768,10 @@
 				// 	opacity: "1"
 				// }];
 
-				results = json.sort(function(a,b) {return d3.descending(a.CandidateNumber, b.CandidateNumber)})
-				// console.log(results)
 
 				function resultsMaker(locationSelector){
+
+					var sortVotes = json.sort(function(a,b) {return b.Votes - a.Votes})
 
 					// var scaleElectors = +aVotes[0].Electors
 					var scaleElectors = json[0]['TotalVoters']
@@ -821,7 +821,7 @@
 					// var bars = d3.select(".chart")
 					var bars = d3.select(locationSelector + '> .chart')
 						.selectAll("div")
-						.data(json)
+						.data(sortVotes)
 						.enter().append("div")
 						.style("width", function(d) {
 							// console.log(d.Votes+1)
@@ -847,9 +847,9 @@
 						this.parentNode.insertBefore(t, this);
 					});
 
-					d3.selectAll(locationSelector + " > .chart > p").data(json).text(function(d) {
+					d3.selectAll(locationSelector + " > .chart > p").data(sortVotes).text(function(d) {
 						// return toTitleCase(d.CandidateFirstName) + ' ' + toTitleCase(d.CandidateLastName) + ' (' + d.PartyAbbrev + ')'
-						return d.First + ' ' + d.Last + ' (' + d.PartyShortName_En + ')'
+						return d.First + ' ' + d.Last + ' (' + d.PartyShortName_En + ') ' + d3.format('.1%')(d.Votes / d.TotalVotes)
 					});
 				}
 	})
