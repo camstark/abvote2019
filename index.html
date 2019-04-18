@@ -847,9 +847,11 @@
 						this.parentNode.insertBefore(t, this);
 					});
 
-					d3.selectAll(locationSelector + " > .chart > p").data(sortVotes).text(function(d) {
+					d3.selectAll(locationSelector + " > .chart > p").data(sortVotes).html(function(d) {
 						// return toTitleCase(d.CandidateFirstName) + ' ' + toTitleCase(d.CandidateLastName) + ' (' + d.PartyAbbrev + ')'
-						return d.First + ' ' + d.Last + ' (' + d.PartyShortName_En + ') ' + d3.format('.1%')(d.Votes / d.TotalVotes)
+						calledElected = ''
+						if (d.Elected == 1) { calledElected = '<span>&#10003;</span> '}
+						return calledElected + d.First + ' ' + d.Last + ' (' + d.PartyShortName_En + ') ' + d3.format('.1%')(d.Votes / d.TotalVotes)
 					});
 				}
 	})
